@@ -29,14 +29,14 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Stock Search</h1>
+      <h1 className="text-2xl font-bold mb-4">한국 국내 주식 정보 사이트</h1>
       <div className="relative w-full max-w-xs mx-auto">
         <input
           type="text"
           value={query}
           onChange={handleSearch}
           className="border border-gray-400 p-2 w-full"
-          placeholder="Search stocks..."
+          placeholder="종목 검색..."
         />
         {stocks.length > 0 && (
           <ul className="absolute left-0 right-0 bg-white border border-gray-400 mt-1 max-h-48 overflow-auto z-10">

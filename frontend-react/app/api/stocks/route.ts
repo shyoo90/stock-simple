@@ -19,3 +19,4 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Error fetching stocks from backend' }, { status: 500 });
   }
 }
+
