@@ -15,9 +15,13 @@ export default function Home() {
     const searchQuery = event.target.value;
     setQuery(searchQuery);
     if (searchQuery.length > 0) {
-      const encodedQuery = encodeURIComponent(searchQuery);
-      const response = await axios.get(`/api/stocks?query=${encodedQuery}`);
-      setStocks(response.data);
+      try {
+        const encodedQuery = encodeURIComponent(searchQuery);
+        const response = await axios.get(`/api/stocks?query=${encodedQuery}`);
+        setStocks(response.data);
+      } catch (error) {
+        console.error("Error fetching stocks:", error);
+      }
     } else {
       setStocks([]);
     }
