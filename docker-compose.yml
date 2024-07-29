@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    container_name: stock_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    command: >
+      sh -c "
+      until pg_isready -h db -U ${POSTGRES_USER}; do
+        echo 'Waiting for PostgreSQL to be ready...';
+        sleep 2;
+      done;
+      cd /app && python3 ./db/init.py && cd /app/app; uvicorn main:app --host 0.0.0.0 --port 8000 --reload & jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+      - "8888:8888"
+    depends_on:
+      - db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  frontend-react:
+    build:
+      context: ./frontend-react
+      dockerfile: Dockerfile
+    container_name: frontend-react
+    command: npm run dev
+    volumes:
+      - ./frontend-react:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+      
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /c/Users/blueb/projects/240728_stock_simple/db_data
