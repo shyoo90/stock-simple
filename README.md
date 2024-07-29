@@ -9,6 +9,7 @@
 - Docker를 사용하여 백엔드와 프론트엔드 서비스를 함께 실행
 
 ## 프로젝트 구조
+```
 project-root/
 │
 ├── backend/
@@ -36,7 +37,7 @@ project-root/
 │ └── package.json
 │
 └── docker-compose.yml
-
+```
 
 ## 설치 및 실행 방법
 
