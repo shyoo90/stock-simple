@@ -12,9 +12,11 @@ export default function Home() {
   const [stocks, setStocks] = useState<Stock[]>([]);
 
   const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
-    if (event.target.value.length > 0) {
-      const response = await axios.get(`/api/stocks?query=${event.target.value}`);
+    const searchQuery = event.target.value;
+    setQuery(searchQuery);
+    if (searchQuery.length > 0) {
+      const encodedQuery = encodeURIComponent(searchQuery);
+      const response = await axios.get(`/api/stocks?query=${encodedQuery}`);
       setStocks(response.data);
     } else {
       setStocks([]);
