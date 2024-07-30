@@ -11,9 +11,9 @@ conn = get_db_connection()
 cur = conn.cursor()
 
 # API URLs and keys
-STOCK_API_URL = "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo"
-KRX_API_URL = "https://apis.data.go.kr/1160100/service/GetKrxListedInfoService/getItemInfo"
-API_KEY = "rJHj9i6TEg0CdwW43fwS3b++GRWjF/tqV4KS/cZ7dZK+GCN/5Y/aIpz4mGPY4DWM0b9GUPCs15ZSntGPWdHQQw=="
+STOCK_API_URL=os.getenv("STOCK_API_URL")
+KRX_API_URL=os.getenv("KRX_API_URL")
+API_KEY=os.getenv("API_KEY")
 
 def fetch_data(api_url, params):
     """
